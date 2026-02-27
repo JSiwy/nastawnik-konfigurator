@@ -3,238 +3,461 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Konfigurator Nastawnika DCC</title>
+    <title>Bezprzewodowy Nastawnik DCC</title>
     <style>
         :root {
             --primary: #0056b3;
-            --bg-color: #f4f7f6;
+            --primary-hover: #004494;
+            --bg-color: #f8f9fa;
             --card-bg: #ffffff;
-            --text-main: #333333;
-            --text-muted: #666666;
-            --border-color: #e0e0e0;
+            --text-main: #212529;
+            --text-muted: #6c757d;
+            --border-color: #dee2e6;
+            --accent: #e9ecef;
         }
 
+        /* --- GLOBALNE --- */
+        html { scroll-behavior: smooth; }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-main);
             margin: 0;
-            padding: 20px;
+            padding: 0;
+            line-height: 1.6;
+        }
+        
+        /* --- NAWIGACJA --- */
+        nav {
+            background-color: var(--card-bg);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 40px;
+        }
+        .logo { font-size: 1.5rem; font-weight: bold; color: var(--primary); text-decoration: none;}
+        .nav-links a {
+            margin-left: 20px;
+            text-decoration: none;
+            color: var(--text-main);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover { color: var(--primary); }
+
+        /* --- SEKCJE --- */
+        section {
+            padding: 80px 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 50px;
         }
 
-        .container {
-            max-width: 800px;
-            width: 100%;
+        /* --- HERO / O PRODUKCIE --- */
+        .hero-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 20px;
+            gap: 40px;
+            align-items: center;
+        }
+        .hero-text h1 { font-size: 3rem; margin-top: 0; line-height: 1.2;}
+        .hero-text p { font-size: 1.1rem; color: var(--text-muted); margin-bottom: 20px;}
+        .hero-features { margin-bottom: 30px; padding-left: 20px;}
+        .hero-features li { margin-bottom: 8px; font-weight: 500;}
+        .btn-main {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: background-color 0.3s;
+        }
+        .btn-main:hover { background-color: var(--primary-hover); }
+        .hero-image {
+            width: 100%;
+            height: 400px;
+            background-color: #e0e0e0;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #888;
+            font-style: italic;
+            background-size: cover;
+            background-position: center;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
         }
 
+        /* --- KONFIGURATOR --- */
+        .config-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
         @media (max-width: 768px) {
-            .container {
-                grid-template-columns: 1fr;
-            }
+            .config-container, .hero-grid { grid-template-columns: 1fr; }
+            nav { flex-direction: column; gap: 10px; }
+            .nav-links a { margin: 0 10px; }
         }
 
         .card {
             background-color: var(--card-bg);
-            padding: 25px;
+            padding: 30px;
             border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
         }
-
-        h1, h2 {
-            margin-top: 0;
-            color: var(--primary);
-            font-size: 1.5rem;
-            margin-bottom: 20px;
-            border-bottom: 2px solid var(--border-color);
-            padding-bottom: 10px;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        label {
-            display: block;
-            font-weight: 600;
-            margin-bottom: 8px;
-            font-size: 0.95rem;
-        }
-
+        .card h2 { margin-top: 0; color: var(--primary); border-bottom: 2px solid var(--border-color); padding-bottom: 10px;}
+        
+        .form-group { margin-bottom: 15px; }
+        label { display: block; font-weight: 600; margin-bottom: 8px; font-size: 0.95rem; }
         select {
+            width: 100%; padding: 10px; border: 1px solid var(--border-color);
+            border-radius: 6px; font-size: 1rem; background-color: #f9f9f9;
+        }
+        .preset-select { background-color: #e6f2ff; border: 2px solid var(--primary); font-weight: bold; color: var(--primary); }
+        .hidden { display: none !important; }
+
+        /* --- INFO O PRESECIE --- */
+        .preset-info-box {
+            background-color: #fdfdfd;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        .preset-info-img {
             width: 100%;
-            padding: 10px;
+            height: 250px;
+            background-color: #eaeaea;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            object-fit: cover;
+            display: flex; align-items: center; justify-content: center; color: #888; font-style: italic;
+        }
+        .preset-info-title { font-size: 1.2rem; font-weight: bold; color: var(--primary); margin: 0 0 10px 0; }
+        .preset-info-desc { font-size: 0.95rem; color: var(--text-muted); margin-bottom: 15px; }
+        .preset-info-features { padding-left: 20px; margin: 0; font-size: 0.9rem; }
+        .preset-info-features li { margin-bottom: 5px; }
+
+        /* --- KOSZTY --- */
+        .summary-box { background-color: var(--accent); padding: 15px; border-radius: 8px; margin-bottom: 20px; }
+        .summary-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.95rem; }
+        .summary-row.bold { font-weight: bold; border-top: 1px solid #d1d9e0; padding-top: 8px; margin-top: 8px; }
+        .total-price-box { text-align: center; background-color: var(--primary); color: white; padding: 20px; border-radius: 8px; }
+        .total-price-box p { margin: 0; font-size: 1.1rem; opacity: 0.9; }
+        .total-price-box h3 { margin: 10px 0 0 0; font-size: 2.5rem; }
+        .details-list { font-size: 0.85rem; color: var(--text-muted); margin-top: 20px; max-height: 250px; overflow-y: auto; border: 1px solid var(--border-color); padding: 10px; border-radius: 6px; }
+        .details-list table { width: 100%; border-collapse: collapse; }
+        .details-list th, .details-list td { text-align: left; padding: 4px; border-bottom: 1px solid #eee; }
+
+        /* --- KONTAKT --- */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+        .contact-info p { font-size: 1.1rem; margin-bottom: 15px; }
+        .contact-info a { color: var(--primary); font-weight: bold; text-decoration: none; }
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .contact-form input, .contact-form textarea {
+            width: 100%;
+            padding: 12px;
             border: 1px solid var(--border-color);
             border-radius: 6px;
-            font-size: 1rem;
-            background-color: #f9f9f9;
-            transition: border-color 0.3s;
+            font-family: inherit;
+            box-sizing: border-box;
         }
-
-        select:focus {
-            outline: none;
-            border-color: var(--primary);
-        }
-
-        .summary-box {
-            background-color: #eef2f5;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-        }
-
-        .summary-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 8px;
-            font-size: 0.95rem;
-        }
-
-        .summary-row.bold {
-            font-weight: bold;
-            border-top: 1px solid #d1d9e0;
-            padding-top: 8px;
-            margin-top: 8px;
-        }
-
-        .total-price-box {
-            text-align: center;
+        .contact-form textarea { resize: vertical; min-height: 120px; }
+        .contact-form button {
             background-color: var(--primary);
             color: white;
-            padding: 20px;
-            border-radius: 8px;
-            margin-top: 20px;
-        }
-
-        .total-price-box p {
-            margin: 0;
-            font-size: 1.1rem;
-            opacity: 0.9;
-        }
-
-        .total-price-box h3 {
-            margin: 10px 0 0 0;
-            font-size: 2.5rem;
-        }
-
-        .details-list {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            margin-top: 20px;
-            max-height: 250px;
-            overflow-y: auto;
-            border: 1px solid var(--border-color);
-            padding: 10px;
+            border: none;
+            padding: 12px;
             border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
         }
-        
-        .details-list table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        
-        .details-list th, .details-list td {
-            text-align: left;
-            padding: 4px;
-            border-bottom: 1px solid #eee;
-        }
+        .contact-form button:hover { background-color: var(--primary-hover); }
+
+        footer { background-color: #212529; color: white; text-align: center; padding: 20px; margin-top: 50px;}
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div class="card">
-        <h1>Opcje Nastawnika</h1>
-        
-        <form id="configForm">
-            <div class="form-group">
-                <label for="keyboard">Klawiatura</label>
-                <select id="keyboard">
-                    <option value="none">Brak</option>
-                    <option value="small">Mała (4x3)</option>
-                    <option value="large">Duża</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="screen">Wyświetlacz (OLED 0.96")</label>
-                <select id="screen">
-                    <option value="none">Brak</option>
-                    <option value="1">1 szt.</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="power">Zasilanie (Moduł ładowania + Ogniwa)</label>
-                <select id="power">
-                    <option value="none">Brak (zasilanie po kablu)</option>
-                    <option value="1">1 Akumulator 18650</option>
-                    <option value="2">2 Akumulatory 18650</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="lanyard">Smyczka</label>
-                <select id="lanyard">
-                    <option value="none">Brak</option>
-                    <option value="1">1 szt.</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="cable">Przewód ładujący (USB-C)</label>
-                <select id="cable">
-                    <option value="none">Brak</option>
-                    <option value="1">1 szt.</option>
-                </select>
-            </div>
-        </form>
+<nav>
+    <a href="#" class="logo">Nastawnik DCC</a>
+    <div class="nav-links">
+        <a href="#about">O produkcie</a>
+        <a href="#configurator">Zamów / Skonfiguruj</a>
+        <a href="#contact">Kontakt</a>
     </div>
+</nav>
 
-    <div class="card">
-        <h2>Koszty</h2>
+<section id="about">
+    <div class="hero-grid">
+        <div class="hero-text">
+            <h1>Pełna kontrola nad Twoją makietą.</h1>
+            <p>[Tutaj wpisz krótki, zachęcający opis swojego projektu. Np. Bezprzewodowy nastawnik oparty na ESP32, zaprojektowany do wygodnej zabawy. Podłącz się pod Wi-Fi i jedź!]</p>
+            <ul class="hero-features">
+                <li>[Cecha 1 - np. Zgodność z systemami Z21 i z21 start]</li>
+                <li>[Cecha 2 - np. Niezwykle precyzyjne pokrętło prędkości]</li>
+                <li>[Cecha 3 - np. Pełna obsługa funkcji dźwiękowych F0-F19]</li>
+                <li>[Cecha 4 - np. Nawet kilkanaście godzin pracy na akumulatorach]</li>
+            </ul>
+            <a href="#configurator" class="btn-main">Przejdź do konfiguratora</a>
+        </div>
         
-        <div class="summary-box">
-            <div class="summary-row">
-                <span>Koszty stałe (obudowa, śruby):</span>
-                <span id="displayFixedCost">0.00 zł</span>
-            </div>
-            <div class="summary-row">
-                <span>Koszty komponentów opcjonalnych:</span>
-                <span id="displayDynamicCost">0.00 zł</span>
-            </div>
-            <div class="summary-row bold">
-                <span>Suma szacunkowa:</span>
-                <span id="displayTotalCostSmall">0.00 zł</span>
-            </div>
-        </div>
-
-        <div class="total-price-box">
-            <p>Całkowity koszt budowy</p>
-            <h3 id="displayTotalCostBig">0.00 zł</h3>
-        </div>
-
-        <div class="details-list">
-            <strong>Szczegółowy wykaz (Generowany dynamicznie):</strong>
-            <table id="detailsTable">
-                </table>
+        <div class="hero-image" style="background-image: url('img/main/foto-glowne.jpg');">
+            [Tu pojawi się zdjęcie z: img/main/foto-glowne.jpg]
         </div>
     </div>
-</div>
+</section>
+
+<section id="configurator" style="background-color: white; padding-top: 60px; padding-bottom: 60px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
+    <h2 class="section-title">Konfigurator Nastawnika</h2>
+    
+    <div class="config-container">
+        <div class="card">
+            <h2>Wybór wersji</h2>
+            
+            <div class="form-group">
+                <label for="preset">Wybierz gotowy pakiet:</label>
+                <select id="preset" class="preset-select">
+                    <option value="minimum">Wersja Minimum</option>
+                    <option value="standard">Wersja Standard</option>
+                    <option value="premium">Wersja Premium</option>
+                    <option value="custom" selected>Własna konfiguracja (Custom)</option>
+                </select>
+            </div>
+
+            <div id="presetInfoBlock" class="preset-info-box hidden">
+                <img id="presetImg" class="preset-info-img" src="" alt="Zdjęcie wersji">
+                <div id="presetImgPlaceholder" class="preset-info-img" style="display:none;">[Brak zdjęcia]</div>
+                
+                <h3 id="presetTitle" class="preset-info-title">Tytuł</h3>
+                <p id="presetDesc" class="preset-info-desc">Opis...</p>
+                <strong>Główne cechy:</strong>
+                <ul id="presetFeatures" class="preset-info-features"></ul>
+            </div>
+
+            <div id="customConfigurator" class="configurator-wrapper">
+                <h2>Konfiguracja szczegółowa</h2>
+                <form id="configForm">
+                    <div class="form-group">
+                        <label for="keyboard">Klawiatura</label>
+                        <select id="keyboard" class="calc-input">
+                            <option value="none">Brak</option>
+                            <option value="small">Mała (4x3)</option>
+                            <option value="large">Duża</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="screen">Wyświetlacz (OLED 0.96")</label>
+                        <select id="screen" class="calc-input">
+                            <option value="none">Brak</option>
+                            <option value="1">1 szt.</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="power">Zasilanie</label>
+                        <select id="power" class="calc-input">
+                            <option value="none">Brak (zasilanie po kablu)</option>
+                            <option value="1">1 Akumulator 18650</option>
+                            <option value="2">2 Akumulatory 18650</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="lanyard">Smyczka</label>
+                        <select id="lanyard" class="calc-input">
+                            <option value="none">Brak</option>
+                            <option value="1">1 szt.</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="cable">Przewód ładujący (USB-C)</label>
+                        <select id="cable" class="calc-input">
+                            <option value="none">Brak</option>
+                            <option value="1">1 szt.</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Koszty budowy</h2>
+            
+            <div class="summary-box">
+                <div class="summary-row">
+                    <span>Koszty stałe (obudowa, moduły bazowe):</span>
+                    <span id="displayFixedCost">0.00 zł</span>
+                </div>
+                <div class="summary-row">
+                    <span>Komponenty opcjonalne / Wybrany pakiet:</span>
+                    <span id="displayDynamicCost">0.00 zł</span>
+                </div>
+                <div class="summary-row bold">
+                    <span>Suma szacunkowa:</span>
+                    <span id="displayTotalCostSmall">0.00 zł</span>
+                </div>
+            </div>
+
+            <div class="total-price-box">
+                <p>Całkowity koszt</p>
+                <h3 id="displayTotalCostBig">0.00 zł</h3>
+            </div>
+
+            <div class="details-list">
+                <strong>Szczegółowy wykaz z cennika:</strong>
+                <table id="detailsTable"></table>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="contact">
+    <h2 class="section-title">Masz pytania? Chcesz zamówić?</h2>
+    
+    <div class="card contact-grid">
+        <div class="contact-info">
+            <h3>Dane kontaktowe</h3>
+            <p>W przypadku pytań kontakt mailowy:</p>
+            <br>
+            <p>✉️ E-mail: <a href="mailto:twojmail@domena.pl">siwy.jann@gmail.com</a></p>
+        </div>
+        
+        <div>
+            <form action="https://formspree.io/f/xykdvkjy" method="POST" class="contact-form">
+                <input type="text" name="name" placeholder="Imię / Nick" required>
+                <input type="email" name="email" placeholder="Twój adres e-mail" required>
+                <textarea name="message" placeholder="Treść wiadomości: " required></textarea>
+                <button type="submit">Wyślij wiadomość</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+<footer>
+    &copy; 2026 Nastawnik DCC
+</footer>
 
 <script src="ceny.js"></script>
 
 <script>
     // ==========================================
-    // LOGIKA APLIKACJI 
+    // DANE PRESETÓW (ZDJĘCIA z folderów img/... i OPISY)
     // ==========================================
+    const PRESET_DETAILS = {
+        'minimum': {
+            title: 'Wersja Minimum',
+            image: 'img/minimum/foto1.jpg', // <--- Tu podajesz ścieżkę do zdjęcia
+            desc: '[Opis wersji Minimum, np. Najprostsza i najlżejsza wersja do sterowania zza biurka...]',
+            features: [
+                '[Cecha: Brak akumulatora]',
+                '[Cecha: Brak ekranu]',
+                '[Cecha: Najtańsza opcja bazowa]'
+            ],
+            settings: { keyboard: 'none', screen: 'none', power: 'none', lanyard: 'none', cable: 'none' }
+        },
+        'standard': {
+            title: 'Wersja Standard',
+            image: 'img/standard/foto1.jpg',
+            desc: '[Opis wersji Standard, np. Złoty środek. Posiada ekran OLED i niezależne zasilanie...]',
+            features: [
+                '[Cecha: Ekran OLED 0.96"]',
+                '[Cecha: 1x Akumulator 18650]',
+                '[Cecha: Klawiatura 4x3]'
+            ],
+            settings: { keyboard: 'small', screen: '1', power: '1', lanyard: 'none', cable: 'none' }
+        },
+        'premium': {
+            title: 'Wersja Premium',
+            image: 'img/premium/foto1.jpg',
+            desc: '[Opis wersji Premium, np. Maksymalny czas pracy, pełna klawiatura do dźwięków...]',
+            features: [
+                '[Cecha: Duża klawiatura (dźwięki F0-F19)]',
+                '[Cecha: 2x Akumulator 18650 (Długi czas pracy)]',
+                '[Cecha: Komplet z kablem i smyczką]'
+            ],
+            settings: { keyboard: 'large', screen: '1', power: '2', lanyard: '1', cable: '1' }
+        }
+    };
 
-    const formElements = document.querySelectorAll('select');
+    // ==========================================
+    // LOGIKA APLIKACJI
+    // ==========================================
+    const presetEl = document.getElementById('preset');
+    const customConfiguratorEl = document.getElementById('customConfigurator');
+    const presetInfoBlock = document.getElementById('presetInfoBlock');
+    
+    const presetTitleEl = document.getElementById('presetTitle');
+    const presetDescEl = document.getElementById('presetDesc');
+    const presetFeaturesEl = document.getElementById('presetFeatures');
+    const presetImgEl = document.getElementById('presetImg');
+    const presetImgPlaceholder = document.getElementById('presetImgPlaceholder');
+
+    const calcInputs = document.querySelectorAll('.calc-input');
     const tableEl = document.getElementById('detailsTable');
+
+    presetEl.addEventListener('change', function() {
+        const selectedKey = this.value;
+
+        if (selectedKey === 'custom') {
+            customConfiguratorEl.classList.remove('hidden');
+            presetInfoBlock.classList.add('hidden');
+        } else {
+            customConfiguratorEl.classList.add('hidden');
+            presetInfoBlock.classList.remove('hidden');
+            
+            const data = PRESET_DETAILS[selectedKey];
+            
+            presetTitleEl.innerText = data.title;
+            presetDescEl.innerText = data.desc;
+            
+            presetFeaturesEl.innerHTML = '';
+            data.features.forEach(feat => {
+                const li = document.createElement('li');
+                li.innerText = feat;
+                presetFeaturesEl.appendChild(li);
+            });
+
+            if(data.image && data.image !== '') {
+                presetImgEl.src = data.image;
+                presetImgEl.style.display = 'block';
+                presetImgPlaceholder.style.display = 'none';
+            } else {
+                presetImgEl.style.display = 'none';
+                presetImgPlaceholder.style.display = 'flex';
+            }
+
+            const vals = data.settings;
+            document.getElementById('keyboard').value = vals.keyboard;
+            document.getElementById('screen').value = vals.screen;
+            document.getElementById('power').value = vals.power;
+            document.getElementById('lanyard').value = vals.lanyard;
+            document.getElementById('cable').value = vals.cable;
+        }
+        
+        updatePricing();
+    });
 
     function updatePricing() {
         let fixedCostTotal = 0;
@@ -252,78 +475,57 @@
             return sum;
         }
 
-        // 1. Wyliczanie kosztów absolutnie stałych
+        if(typeof PRICING === 'undefined') {
+            document.getElementById('displayTotalCostBig').innerText = "BŁĄD CENNIKA";
+            return;
+        }
+
         for (const [name, data] of Object.entries(PRICING.fixedItems)) {
             fixedCostTotal += addRow(name, data[0], data[1]);
         }
 
-        // 2. Wyliczanie kosztów dynamicznych (Zależnych od formularza)
         const keyboardVal = document.getElementById('keyboard').value;
         const screenVal = document.getElementById('screen').value;
         const powerVal = document.getElementById('power').value;
         const lanyardVal = document.getElementById('lanyard').value;
         const cableVal = document.getElementById('cable').value;
 
-        // A. Sterownik ESP32 oraz powiązana z nim ROBOCIZNA
         if (keyboardVal === 'none') {
             dynamicCostTotal += addRow("Sterownik ESP32 S2 Mini", PRICING.options.esp32_base, 1);
             dynamicCostTotal += addRow("Robocizna (Montaż bazowy)", PRICING.options.labor_base, 1);
         } else {
             dynamicCostTotal += addRow("Sterownik ESP32 S2 Mini (Wersja z klaw.)", PRICING.options.esp32_with_keyboard, 1);
             dynamicCostTotal += addRow("Robocizna (Montaż rozszerzony)", PRICING.options.labor_keyboard, 1);
-            
-            // Doliczenie samej klawiatury
-            if (keyboardVal === 'small') {
-                dynamicCostTotal += addRow("Klawiatura Mała 4x3", PRICING.options.keyboard_small, 1);
-            } else if (keyboardVal === 'large') {
-                dynamicCostTotal += addRow("Klawiatura Duża", PRICING.options.keyboard_large, 1);
-            }
+            if (keyboardVal === 'small') dynamicCostTotal += addRow("Klawiatura Mała 4x3", PRICING.options.keyboard_small, 1);
+            else if (keyboardVal === 'large') dynamicCostTotal += addRow("Klawiatura Duża", PRICING.options.keyboard_large, 1);
         }
 
-        // B. Wyświetlacz
-        if (screenVal === '1') {
-            dynamicCostTotal += addRow("Wyświetlacz OLED 0.96 cala", PRICING.options.screen_oled, 1);
-        }
+        if (screenVal === '1') dynamicCostTotal += addRow("Wyświetlacz OLED 0.96 cala", PRICING.options.screen_oled, 1);
 
-        // C. Zasilanie
         if (powerVal === '1') {
             dynamicCostTotal += addRow("Układ ładowania (FM5324HJ1)", PRICING.options.charging_module, 1);
             dynamicCostTotal += addRow("Akumulator 18650", PRICING.options.battery_cell, 1);
             dynamicCostTotal += addRow("Koszyk baterii", PRICING.options.battery_holder, 1);
         } else if (powerVal === '2') {
-            dynamicCostTotal += addRow("Układ ładowania (FM5324HJ1)", PRICING.options.charging_module, 1);
+            dynamicCostTotal += addRow("Układ ładowania", PRICING.options.charging_module, 1);
             dynamicCostTotal += addRow("Akumulator 18650", PRICING.options.battery_cell, 2);
             dynamicCostTotal += addRow("Koszyk baterii", PRICING.options.battery_holder, 2);
         }
 
-        // D. Smyczka
-        if (lanyardVal === '1') {
-            dynamicCostTotal += addRow("Smyczka", PRICING.options.lanyard, 1);
-        }
+        if (lanyardVal === '1') dynamicCostTotal += addRow("Smyczka", PRICING.options.lanyard, 1);
+        if (cableVal === '1') dynamicCostTotal += addRow("Kabel do ładowania USB-C", PRICING.options.cable_usbc, 1);
 
-        // E. Przewód
-        if (cableVal === '1') {
-            dynamicCostTotal += addRow("Kabel do ładowania USB-C", PRICING.options.cable_usbc, 1);
-        }
-
-        // 3. Aktualizacja interfejsu
         const grandTotal = fixedCostTotal + dynamicCostTotal;
 
         document.getElementById('displayFixedCost').innerText = fixedCostTotal.toFixed(2) + ' zł';
         document.getElementById('displayDynamicCost').innerText = dynamicCostTotal.toFixed(2) + ' zł';
         document.getElementById('displayTotalCostSmall').innerText = grandTotal.toFixed(2) + ' zł';
         document.getElementById('displayTotalCostBig').innerText = grandTotal.toFixed(2) + ' zł';
-        
         tableEl.innerHTML = detailsHTML;
     }
 
-    // Nasłuchiwanie zmian w formularzu
-    formElements.forEach(el => {
-        el.addEventListener('change', updatePricing);
-    });
-
-    // Inicjalne przeliczenie przy załadowaniu strony
-    updatePricing();
+    calcInputs.forEach(el => el.addEventListener('change', updatePricing));
+    setTimeout(updatePricing, 100);
 
 </script>
 </body>
