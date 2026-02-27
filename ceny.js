@@ -17,10 +17,10 @@ const PRICING = {
         
         // Filament (Obudowa)
         filament_base: 40.00,       // Filament dla Wersji Minimum
-        filament_standard: 38.10,   // Filament dla wyższych wersji
+        filament_standard: 60.00,   // Filament dla wyższych wersji
 
         // Płyta główna
-        esp32_base: 8.00,
+        esp8266_base: 8.00,
         esp32_with_keyboard: 12.00,
         
         // Klawiatura
