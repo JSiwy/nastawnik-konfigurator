@@ -346,9 +346,15 @@
         
         <div>
             <form action="https://formspree.io/f/xykdvkjy" method="POST" class="contact-form">
-                <input type="text" name="name" placeholder="Imię / Nick" required>
-                <input type="email" name="email" placeholder="Twój adres e-mail" required>
-                <textarea name="message" placeholder="Treść wiadomości: " required></textarea>
+                <label>
+                    <input type="text" name="name" placeholder="Imię / Nick" required>
+                </label>
+                <label>
+                    <input type="email" name="email" placeholder="Twój adres e-mail" required>
+                </label>
+                <label>
+                    <textarea name="message" placeholder="Treść wiadomości: " required></textarea>
+                </label>
                 <button type="submit">Wyślij wiadomość</button>
             </form>
         </div>
@@ -495,13 +501,13 @@
         // 2. Koszty dynamiczne: Obudowa (Filament), Sterownik ESP32 oraz Robocizna
         if (keyboardVal === 'none' && screenVal === 'none' && powerVal === 'none') {
             dynamicCostTotal += addRow("Filament (Obudowa Wersja Minimum)", PRICING.options.filament_base, 1);
-            dynamicCostTotal += addRow("Sterownik ESP32 S2 Mini", PRICING.options.esp32_base, 1);
+            dynamicCostTotal += addRow("Sterownik ESP32 S2 Mini", PRICING.options.esp8266_base, 1);
             dynamicCostTotal += addRow("Robocizna (Montaż bazowy)", PRICING.options.labor_base, 1);
         } else {
             dynamicCostTotal += addRow("Filament (Obudowa Standard/Premium)", PRICING.options.filament_standard, 1);
             
             if (keyboardVal === 'none') {
-                dynamicCostTotal += addRow("Sterownik ESP32 S2 Mini", PRICING.options.esp32_base, 1);
+                dynamicCostTotal += addRow("Sterownik ESP32 S2 Mini", PRICING.options.esp8266_base, 1);
                 dynamicCostTotal += addRow("Robocizna (Montaż rozszerzony)", PRICING.options.labor_standard, 1);
             } else {
                 dynamicCostTotal += addRow("Sterownik ESP32 S2 Mini (Wersja z klaw.)", PRICING.options.esp32_with_keyboard, 1);
