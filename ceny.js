@@ -16,8 +16,8 @@ const PRICING = {
         labor_standard: 50.00,      // Robocizna dla wyższych wersji
         
         // Filament (Obudowa)
-        filament_base: 40.00,       // Filament dla Wersji Minimum
-        filament_standard: 60.00,   // Filament dla wyższych wersji
+        filament_base: 25.00,       // Filament dla Wersji Minimum
+        filament_standard: 40.00,   // Filament dla wyższych wersji
 
         // Płyta główna
         esp8266_base: 8.00,
