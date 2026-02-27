@@ -21,7 +21,6 @@ const PRICING = {
         filament_standard: 40.00,   // Filament dla wyższych wersji
 
         // --- PŁYTY GŁÓWNE ---
-        wemos_d1_mini: 8.00,           // Brak baterii, brak klawiatury (Minimum)
         esp32_c3_super_mini: 10.00,    // Z baterią, brak klawiatury
         esp32_s2_mini_keyboard: 12.00, // Z klawiaturą (wymaga więcej pinów)
         
