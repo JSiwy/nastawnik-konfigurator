@@ -22,17 +22,17 @@ const PRICING = {
 
         // --- PŁYTY GŁÓWNE ---
         esp32_c3_super_mini: 10.00,    // Z baterią, brak klawiatury
-        esp32_s2_mini_keyboard: 12.00, // Z klawiaturą (wymaga więcej pinów)
+        esp32_s2_mini_keyboard: 15.00, // Z klawiaturą (wymaga więcej pinów)
         
         // Klawiatura
         keyboard_small: 8.00,
         keyboard_large: 12.00, 
         
         // Wyświetlacz
-        screen_oled: 7.00,
+        screen_oled: 9.00,
         
         // Zasilanie
-        charging_module: 4.00, 
+        charging_module: 5.00,
         battery_cell: 8.00,    
         battery_holder: 1.50,  
         
