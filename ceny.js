@@ -13,15 +13,17 @@ const PRICING = {
     options: {
         // Robocizna
         labor_base: 25.00,          // Robocizna dla Wersji Minimum
+        labor_base_plus: 35.00,     // Robocizna dla Wersji Plus
         labor_standard: 50.00,      // Robocizna dla wyższych wersji
         
         // Filament (Obudowa)
         filament_base: 25.00,       // Filament dla Wersji Minimum
         filament_standard: 40.00,   // Filament dla wyższych wersji
 
-        // Płyta główna
-        esp8266_base: 8.00,
-        esp32_with_keyboard: 12.00,
+        // --- PŁYTY GŁÓWNE ---
+        wemos_d1_mini: 8.00,           // Brak baterii, brak klawiatury (Minimum)
+        esp32_c3_super_mini: 10.00,    // Z baterią, brak klawiatury
+        esp32_s2_mini_keyboard: 12.00, // Z klawiaturą (wymaga więcej pinów)
         
         // Klawiatura
         keyboard_small: 8.00,
@@ -36,7 +38,7 @@ const PRICING = {
         battery_holder: 1.50,  
         
         // Dodatki
-        lanyard: 3.50,         
+        lanyard: 8.00,
         cable_usbc: 4.00       
     }
 };

@@ -498,21 +498,32 @@
         const lanyardVal = document.getElementById('lanyard').value;
         const cableVal = document.getElementById('cable').value;
 
-        // 2. Koszty dynamiczne: Obudowa (Filament), Sterownik ESP32 oraz Robocizna
-        if (keyboardVal === 'none' && screenVal === 'none' && powerVal === 'none') {
+        // 2. Koszty dynamiczne: Obudowa (Filament), Sterownik oraz Robocizna
+        if (keyboardVal === 'none' && screenVal === 'none') {
+            // WERSJE MINIMUM (Z baterią lub bez)
             dynamicCostTotal += addRow("Filament (Obudowa Wersja Minimum)", PRICING.options.filament_base, 1);
-            dynamicCostTotal += addRow("Sterownik ESP32 S2 Mini", PRICING.options.esp8266_base, 1);
-            dynamicCostTotal += addRow("Robocizna (Montaż bazowy)", PRICING.options.labor_base, 1);
-        } else {
-            dynamicCostTotal += addRow("Filament (Obudowa Standard/Premium)", PRICING.options.filament_standard, 1);
-            
-            if (keyboardVal === 'none') {
-                dynamicCostTotal += addRow("Sterownik ESP32 S2 Mini", PRICING.options.esp8266_base, 1);
-                dynamicCostTotal += addRow("Robocizna (Montaż rozszerzony)", PRICING.options.labor_standard, 1);
+
+            if (powerVal === 'none') {
+                // Czyste Minimum (Bez baterii)
+                dynamicCostTotal += addRow("Sterownik Wemos D1 Mini", PRICING.options.wemos_d1_mini, 1);
+                dynamicCostTotal += addRow("Robocizna (Montaż bazowy)", PRICING.options.labor_base, 1);
             } else {
-                dynamicCostTotal += addRow("Sterownik ESP32 S2 Mini (Wersja z klaw.)", PRICING.options.esp32_with_keyboard, 1);
-                dynamicCostTotal += addRow("Robocizna (Montaż rozszerzony)", PRICING.options.labor_standard, 1);
-                
+                // Minimum + Bateria
+                dynamicCostTotal += addRow("Sterownik ESP32 C3 Super Mini", PRICING.options.esp32_c3_super_mini, 1);
+                dynamicCostTotal += addRow("Robocizna (Montaż bazowy + bateria)", PRICING.options.labor_base_plus, 1);
+            }
+        } else {
+            // WERSJE ROZBUDOWANE (Standard i Premium - mają ekran lub klawiaturę)
+            dynamicCostTotal += addRow("Filament (Obudowa Standard/Premium)", PRICING.options.filament_standard, 1);
+            dynamicCostTotal += addRow("Robocizna (Montaż rozszerzony)", PRICING.options.labor_standard, 1);
+
+            if (keyboardVal === 'none') {
+                // Mają ekran, ale bez klawiatury
+                dynamicCostTotal += addRow("Sterownik ESP32 C3 Super Mini", PRICING.options.esp32_c3_super_mini, 1);
+            } else {
+                // Mają klawiaturę (najwięcej pinów)
+                dynamicCostTotal += addRow("Sterownik ESP32 S2 Mini (Wersja z klaw.)", PRICING.options.esp32_s2_mini_keyboard, 1);
+
                 if (keyboardVal === 'small') dynamicCostTotal += addRow("Klawiatura Mała 4x3", PRICING.options.keyboard_small, 1);
                 else if (keyboardVal === 'large') dynamicCostTotal += addRow("Klawiatura Duża", PRICING.options.keyboard_large, 1);
             }
