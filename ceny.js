@@ -11,14 +11,14 @@ const PRICING = {
         "Tłoczek sprężynowy 3mm": [1.00, 1],
         "Potencjometr 10kOhm": [1.50, 1],
         "Filament": [60.00, 0.635],
-        "Pozostałe": [5.00, 1]
+        "Pozostałe": [10.00, 1]
         // Robocizna została przeniesiona do opcji poniżej!
     },
     
     // Koszty ruchome / opcjonalne
     options: {
         // Robocizna
-        labor_base: 50.00,       // Koszt pracy dla wersji bez klawiatury
+        labor_base: 45.00,       // Koszt pracy dla wersji bez klawiatury
         labor_keyboard: 70.00,   // Koszt pracy dla wersji z klawiaturą (zmień wg uznania)
 
         // Płyta główna
@@ -38,7 +38,7 @@ const PRICING = {
         battery_holder: 1.50,  
         
         // Dodatki
-        lanyard: 3.50,         
+        lanyard: 8.00,         
         cable_usbc: 4.00       
     }
 };
