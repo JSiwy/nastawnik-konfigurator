@@ -17,8 +17,8 @@ const PRICING = {
         labor_standard: 50.00,      // Robocizna dla wyższych wersji
         
         // Filament (Obudowa)
-        filament_base: 25.00,       // Filament dla Wersji Minimum
-        filament_standard: 40.00,   // Filament dla wyższych wersji
+        filament_base: 30.00,       // Filament dla Wersji Minimum
+        filament_standard: 45.00,   // Filament dla wyższych wersji
 
         // --- PŁYTY GŁÓWNE ---
         esp32_c3_super_mini: 10.00,    // Z baterią, brak klawiatury
