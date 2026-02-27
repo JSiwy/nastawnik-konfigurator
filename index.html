@@ -125,7 +125,7 @@
             font-size: 0.85rem;
             color: var(--text-muted);
             margin-top: 20px;
-            max-height: 200px;
+            max-height: 250px;
             overflow-y: auto;
             border: 1px solid var(--border-color);
             padding: 10px;
@@ -200,7 +200,7 @@
         
         <div class="summary-box">
             <div class="summary-row">
-                <span>Koszty stałe (obudowa, śruby, robocizna):</span>
+                <span>Koszty stałe (obudowa, śruby):</span>
                 <span id="displayFixedCost">0.00 zł</span>
             </div>
             <div class="summary-row">
@@ -226,53 +226,11 @@
     </div>
 </div>
 
+<script src="ceny.js"></script>
+
 <script>
     // ==========================================
-    // CENNIK I KONFIGURACJA (Łatwe do zmiany)
-    // Format: [Cena jednostkowa, Ilość]
-    // ==========================================
-    const PRICING = {
-        // 1. Elementy stałe (Zawsze wliczane w koszt)
-        fixedItems: {
-            "Łożyska": [1.50, 2],
-            "Wkładka M3 gwint": [0.25, 16],
-            "Śruba M3 12mm": [0.15, 12],
-            "Kołek gwintowany M3 8mm": [0.05, 2],
-            "Podkładka M3": [0.10, 4],
-            "Nakrętka M3": [0.10, 2],
-            "Tłoczek sprężynowy 3mm": [1.00, 1],
-            "Potencjometr 10kOhm": [1.50, 1],
-            "Filament": [60.00, 0.635], // 60zł za kg, zużycie 63.5g
-            "Pozostałe": [5.00, 1],
-            "Robocizna": [50.00, 1]
-        },
-
-        // 2. Elementy ruchome / opcjonalne (Ceny jednostkowe)
-        options: {
-            // Płyta główna (Zależna od wyboru klawiatury)
-            esp32_base: 8.00,
-            esp32_with_keyboard: 12.00,
-
-            // Klawiatura
-            keyboard_small: 8.00,
-            keyboard_large: 12.00, // Do ustalenia / zmiany
-
-            // Ekran
-            screen_oled: 7.00,
-
-            // Zasilanie 
-            charging_module: 4.00, // Układ ładowania z FM5324HJ1
-            battery_cell: 8.00,    // Akumulator 18650
-            battery_holder: 1.50,  // Koszyk baterii
-
-            // Dodatki
-            lanyard: 3.50,         // Smyczka (do ustalenia)
-            cable_usbc: 4.00       // Kabel do ładowania
-        }
-    };
-
-    // ==========================================
-    // LOGIKA APLIKACJI
+    // LOGIKA APLIKACJI 
     // ==========================================
 
     const formElements = document.querySelectorAll('select');
@@ -283,7 +241,6 @@
         let dynamicCostTotal = 0;
         let detailsHTML = `<tr><th>Komponent</th><th>Cena jd.</th><th>Ilość</th><th>Suma</th></tr>`;
 
-        // Funkcja pomocnicza do dodawania wiersza do tabeli
         function addRow(name, unitPrice, qty) {
             const sum = unitPrice * qty;
             detailsHTML += `<tr>
@@ -295,23 +252,25 @@
             return sum;
         }
 
-        // --- 1. WYliczanie kosztów stałych ---
+        // 1. Wyliczanie kosztów absolutnie stałych
         for (const [name, data] of Object.entries(PRICING.fixedItems)) {
             fixedCostTotal += addRow(name, data[0], data[1]);
         }
 
-        // --- 2. Wyliczanie kosztów dynamicznych (Zależnych od formularza) ---
+        // 2. Wyliczanie kosztów dynamicznych (Zależnych od formularza)
         const keyboardVal = document.getElementById('keyboard').value;
         const screenVal = document.getElementById('screen').value;
         const powerVal = document.getElementById('power').value;
         const lanyardVal = document.getElementById('lanyard').value;
         const cableVal = document.getElementById('cable').value;
 
-        // A. Sterownik ESP32 (Rośnie z 8 zł na 12 zł jeśli jest klawiatura)
+        // A. Sterownik ESP32 oraz powiązana z nim ROBOCIZNA
         if (keyboardVal === 'none') {
             dynamicCostTotal += addRow("Sterownik ESP32 S2 Mini", PRICING.options.esp32_base, 1);
+            dynamicCostTotal += addRow("Robocizna (Montaż bazowy)", PRICING.options.labor_base, 1);
         } else {
             dynamicCostTotal += addRow("Sterownik ESP32 S2 Mini (Wersja z klaw.)", PRICING.options.esp32_with_keyboard, 1);
+            dynamicCostTotal += addRow("Robocizna (Montaż rozszerzony)", PRICING.options.labor_keyboard, 1);
             
             // Doliczenie samej klawiatury
             if (keyboardVal === 'small') {
@@ -347,7 +306,7 @@
             dynamicCostTotal += addRow("Kabel do ładowania USB-C", PRICING.options.cable_usbc, 1);
         }
 
-        // --- 3. Aktualizacja interfejsu ---
+        // 3. Aktualizacja interfejsu
         const grandTotal = fixedCostTotal + dynamicCostTotal;
 
         document.getElementById('displayFixedCost').innerText = fixedCostTotal.toFixed(2) + ' zł';
