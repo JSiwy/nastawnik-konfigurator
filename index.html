@@ -226,7 +226,6 @@
         </div>
         
         <div class="hero-image" style="background-image: url('img/main/foto-glowne.png');">
-            [Tu pojawi się zdjęcie z: img/main/foto-glowne.jpg]
         </div>
     </div>
 </section>
@@ -375,40 +374,39 @@
         'minimum': {
             title: 'Wersja Minimum',
             image: 'img/minimum/foto1.jpg', 
-            desc: 'Najprostsza wersja, idealna dla osób mających pierwszy kontakt ze sterowaniem lokomotywą na makiecie. ' +
-                'Brak możliwości zmiany kierunku jazdy, brak możliwości zmiany ID lokomotywy, którą sterujemy ' +
-                'bez dodatkowego urządzenia (komputer/telefon), brak możliwości załączania funkcji ani sterowania rozjazdami. ' +
-                'Przykłądowe zastosowanie: manipulator dla dzieci bądź osób bez doświadczenia, które chcą jeździć na bardziej ' +
-                'rozbudowanej makiecie.',
+            desc: 'Najprostsza wersja, idealna dla osób mających pierwszy kontakt ze sterowaniem lokomotywą na makiecie. Doskonała jako bezpieczny manipulator dla dzieci bądź gości bez doświadczenia.',
             features: [
-                'Dedykowane rozwiązanie do zmiany konfiguracji',
-                'Sterowanie prędkością i kierunkiem jazdy (po kablu)',
-                'Brak akumulatora (możliwość rozbudowy w zakładce konfiguracji)',
-                'Brak ekranu i klawiatury'
+                'Tylko kontrola prędkości (brak możliwości zmiany kierunku jazdy z poziomu nastawnika)',
+                'Stały adres lokomotywy (zmiana ID przypisanej lokomotywy wymaga użycia komputera/telefonu)',
+                'Możliwość rozbudowy o wbudowany akumulator. Domyślnie zasilanie zewnętrzne',
+                'Brak możliwości załączania funkcji (dźwięków, świateł) ani sterowania rozjazdami'
             ],
             settings: { keyboard: 'none', screen: 'none', power: 'none', lanyard: 'none', cable: 'none' }
         },
         'standard': {
             title: 'Wersja Standard',
             image: 'img/standard/foto1.jpg',
-            desc: '[Opis wersji Standard, np. Złoty środek. Posiada ekran OLED i niezależne zasilanie...]',
+            desc: 'Idealny "złoty środek" dla większości maszynistów. Posiada wbudowany ekran oraz własne zasilanie akumulatorowe, zapewniając pełną swobodę poruszania się wokół makiety bez plączących się kabli. Pozwala na niezależną kontrolę nad pociągiem.',
             features: [
-                '[Cecha: Ekran OLED 0.96"]',
-                '[Cecha: 1x Akumulator 18650]',
-                '[Cecha: Klawiatura 4x3]'
+                'Wbudowany ekran OLED 0.96" na bieżąco informujący o parametrach jazdy (adres, prędkość, kierunek i aktywne funkcje)',
+                'Mała klawiatura (4x3) umożliwiająca zmianę kierunku, swobodne wpisywanie adresu lokomotywy',
+                'Obsługa funkcji świetlnych i dźwiękowych (F0 - F19)',
+                'Zasilanie z 1 akumulatora 18650 (wygodne ładowanie przez wbudowany moduł)'
             ],
             settings: { keyboard: 'small', screen: '1', power: '1', lanyard: 'none', cable: 'none' }
         },
+
         'premium': {
             title: 'Wersja Premium',
             image: 'img/premium/foto1.jpg',
-            desc: '[Opis wersji Premium, np. Maksymalny czas pracy, pełna klawiatura do dźwięków...]',
+            desc: 'Bezkompromisowe rozwiązanie dla najbardziej wymagających użytkowników i fanów zaawansowanych dekoderów dźwiękowych. Oferuje maksymalny komfort obsługi i podwojony czas pracy na baterii.',
             features: [
-                '[Cecha: Duża klawiatura (dźwięki F0-F19)]',
-                '[Cecha: 2x Akumulator 18650 (Długi czas pracy)]',
-                '[Cecha: Komplet z kablem i smyczką]'
+                'Duża klawiatura dająca wygodny i błyskawiczny dostęp  funkcji dekodera (F0 - F19) oraz pamięci (A-D)',
+                'Wbudowany ekran OLED 0.96" z pełnym podglądem stanu lokomotywy',
+                'Pamięć na 4 lokomotywy (A-D) z opcją szybkiego wczytania bez konieczności wpisywania adresu',
+                'Podwójne zasilanie (2x akumulator 18650) wydłuża działanie na jednym ładowaniu, idealne na wielogodzinne imprezy modelarskie'
             ],
-            settings: { keyboard: 'large', screen: '1', power: '2', lanyard: '1', cable: '1' }
+            settings: { keyboard: 'large', screen: '1', power: '2', lanyard: '1', cable: '0' }
         }
     };
 
