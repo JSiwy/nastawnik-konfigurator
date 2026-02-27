@@ -307,7 +307,7 @@
             
             <div class="summary-box">
                 <div class="summary-row">
-                    <span>Koszty stałe (obudowa, moduły bazowe):</span>
+                    <span>Koszty stałe: </span>
                     <span id="displayFixedCost">0.00 zł</span>
                 </div>
                 <div class="summary-row">
@@ -364,9 +364,9 @@
 <footer>
     &copy; 2026 Nastawnik DCC
 </footer>
-
-<script src="ceny.js"></script>
-
+<script>
+    document.write('<script src="ceny.js?v=' + Date.now() + '"><\/script>');
+</script>
 <script>
     // ==========================================
     // DANE PRESETÓW (ZDJĘCIA z folderów img/... i OPISY)
