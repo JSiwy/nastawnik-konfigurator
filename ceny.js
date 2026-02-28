@@ -37,7 +37,7 @@ const PRICING = {
         battery_holder: 1.50,  
         
         // Dodatki
-        lanyard: 8.00,
-        cable_usbc: 4.00       
+        lanyard: 10.00,
+        cable_usbc: 5.00
     }
 };
