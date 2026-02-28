@@ -6,6 +6,7 @@
     <title>Bezprzewodowy Nastawnik DCC</title>
     <style>
         :root {
+            /* Motyw Jasny (Domyślny) */
             --primary: #0056b3;
             --primary-hover: #004494;
             --bg-color: #f8f9fa;
@@ -14,6 +15,26 @@
             --text-muted: #6c757d;
             --border-color: #dee2e6;
             --accent: #e9ecef;
+            --input-bg: #f9f9f9;
+            --preset-bg: #e6f2ff;
+            --preset-box-bg: #fdfdfd;
+            --img-bg: #eaeaea;
+        }
+
+        /* Motyw Ciemny */
+        [data-theme="dark"] {
+            --primary: #4da3ff;
+            --primary-hover: #80bfff;
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --text-main: #f1f1f1;
+            --text-muted: #aaaaaa;
+            --border-color: #333333;
+            --accent: #2d2d2d;
+            --input-bg: #2a2a2a;
+            --preset-bg: #13273e;
+            --preset-box-bg: #181818;
+            --img-bg: #2a2a2a;
         }
 
         /* --- GLOBALNE --- */
@@ -25,8 +46,9 @@
             margin: 0;
             padding: 0;
             line-height: 1.6;
+            transition: background-color 0.3s, color 0.3s;
         }
-        
+
         /* --- NAWIGACJA --- */
         nav {
             background-color: var(--card-bg);
@@ -38,8 +60,13 @@
             justify-content: space-between;
             align-items: center;
             padding: 15px 40px;
+            transition: background-color 0.3s;
         }
         .logo { font-size: 1.5rem; font-weight: bold; color: var(--primary); text-decoration: none;}
+        .nav-links {
+            display: flex;
+            align-items: center;
+        }
         .nav-links a {
             margin-left: 20px;
             text-decoration: none;
@@ -48,6 +75,17 @@
             transition: color 0.3s;
         }
         .nav-links a:hover { color: var(--primary); }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            font-size: 1.3rem;
+            cursor: pointer;
+            margin-left: 20px;
+            color: var(--text-main);
+            transition: transform 0.2s;
+        }
+        .theme-toggle:hover { transform: scale(1.1); }
 
         /* --- SEKCJE --- */
         section {
@@ -88,12 +126,12 @@
         .hero-image {
             width: 100%;
             height: 400px;
-            background-color: #e0e0e0;
+            background-color: var(--img-bg);
             border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #888;
+            color: var(--text-muted);
             font-style: italic;
             background-size: cover;
             background-position: center;
@@ -109,22 +147,13 @@
         @media (max-width: 768px) {
             .config-container, .hero-grid { grid-template-columns: 1fr; }
             nav { flex-direction: column; gap: 10px; }
-            .nav-links a { margin: 0 10px; }
+            .nav-links { flex-direction: column; gap: 15px; }
+            .nav-links a { margin: 0; }
+            .theme-toggle { margin: 0; }
 
-            /* Naprawa i odwrócenie sekcji kontaktowej na telefonach */
-            .contact-grid {
-                display: flex;
-                flex-direction: column;
-                gap: 30px;
-            }
-            .contact-info {
-                order: 2; /* Wymusza zrzucenie tekstu na dół */
-                border-top: 1px dashed var(--border-color); /* Estetyczna linia oddzielająca */
-                padding-top: 20px;
-            }
-            .contact-form-wrapper {
-                order: 1; /* Wymusza podniesienie formularza do góry */
-            }
+            .contact-grid { display: flex; flex-direction: column; gap: 30px; }
+            .contact-info { order: 2; border-top: 1px dashed var(--border-color); padding-top: 20px; }
+            .contact-form-wrapper { order: 1; }
         }
 
         .card {
@@ -132,21 +161,23 @@
             padding: 30px;
             border-radius: 12px;
             box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            transition: background-color 0.3s;
         }
         .card h2 { margin-top: 0; color: var(--primary); border-bottom: 2px solid var(--border-color); padding-bottom: 10px;}
-        
+
         .form-group { margin-bottom: 15px; }
         label { display: block; font-weight: 600; margin-bottom: 8px; font-size: 0.95rem; }
         select {
             width: 100%; padding: 10px; border: 1px solid var(--border-color);
-            border-radius: 6px; font-size: 1rem; background-color: #f9f9f9;
+            border-radius: 6px; font-size: 1rem; background-color: var(--input-bg);
+            color: var(--text-main);
         }
-        .preset-select { background-color: #e6f2ff; border: 2px solid var(--primary); font-weight: bold; color: var(--primary); }
+        .preset-select { background-color: var(--preset-bg); border: 2px solid var(--primary); font-weight: bold; color: var(--primary); }
         .hidden { display: none !important; }
 
         /* --- INFO O PRESECIE --- */
         .preset-info-box {
-            background-color: #fdfdfd;
+            background-color: var(--preset-box-bg);
             border: 1px solid var(--border-color);
             border-radius: 8px;
             padding: 20px;
@@ -156,11 +187,11 @@
         .preset-info-img {
             width: 100%;
             height: 250px;
-            background-color: #eaeaea;
+            background-color: var(--img-bg);
             border-radius: 6px;
             margin-bottom: 15px;
             object-fit: cover;
-            display: flex; align-items: center; justify-content: center; color: #888; font-style: italic;
+            display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-style: italic;
         }
         .preset-info-title { font-size: 1.2rem; font-weight: bold; color: var(--primary); margin: 0 0 10px 0; }
         .preset-info-desc { font-size: 0.95rem; color: var(--text-muted); margin-bottom: 15px; }
@@ -170,13 +201,10 @@
         /* --- KOSZTY --- */
         .summary-box { background-color: var(--accent); padding: 15px; border-radius: 8px; margin-bottom: 20px; }
         .summary-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.95rem; }
-        .summary-row.bold { font-weight: bold; border-top: 1px solid #d1d9e0; padding-top: 8px; margin-top: 8px; }
+        .summary-row.bold { font-weight: bold; border-top: 1px solid var(--border-color); padding-top: 8px; margin-top: 8px; }
         .total-price-box { text-align: center; background-color: var(--primary); color: white; padding: 20px; border-radius: 8px; }
         .total-price-box p { margin: 0; font-size: 1.1rem; opacity: 0.9; }
         .total-price-box h3 { margin: 10px 0 0 0; font-size: 2.5rem; }
-        .details-list { font-size: 0.85rem; color: var(--text-muted); margin-top: 20px; max-height: 250px; overflow-y: auto; border: 1px solid var(--border-color); padding: 10px; border-radius: 6px; }
-        .details-list table { width: 100%; border-collapse: collapse; }
-        .details-list th, .details-list td { text-align: left; padding: 4px; border-bottom: 1px solid #eee; }
 
         /* --- KONTAKT --- */
         .contact-grid {
@@ -198,6 +226,8 @@
             border-radius: 6px;
             font-family: inherit;
             box-sizing: border-box;
+            background-color: var(--input-bg);
+            color: var(--text-main);
         }
         .contact-form textarea { resize: vertical; min-height: 120px; }
         .contact-form button {
@@ -212,7 +242,7 @@
         }
         .contact-form button:hover { background-color: var(--primary-hover); }
 
-        footer { background-color: #212529; color: white; text-align: center; padding: 20px; margin-top: 50px;}
+        footer { background-color: #1a1d20; color: #a0a0a0; text-align: center; padding: 20px; margin-top: 50px;}
     </style>
 </head>
 <body>
@@ -224,6 +254,7 @@
         <a href="#configurator">Zamów / Skonfiguruj</a>
         <a href="#manual">Instrukcja</a>
         <a href="#contact">Kontakt</a>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Przełącz motyw" title="Zmień motyw">🌙</button>
     </div>
 </nav>
 
@@ -240,19 +271,19 @@
             </ul>
             <a href="#configurator" class="btn-main">Przejdź do konfiguratora</a>
         </div>
-        
+
         <div class="hero-image" style="background-image: url('img/main/foto-glowne.png');">
         </div>
     </div>
 </section>
 
-<section id="configurator" style="background-color: white; padding-top: 60px; padding-bottom: 60px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
+<section id="configurator" style="background-color: var(--card-bg); padding-top: 60px; padding-bottom: 60px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); transition: background-color 0.3s;">
     <h2 class="section-title">Konfigurator Nastawnika</h2>
-    
+
     <div class="config-container">
         <div class="card">
             <h2>Wybór wersji</h2>
-            
+
             <div class="form-group">
                 <label for="preset">Wybierz gotowy pakiet:</label>
                 <select id="preset" class="preset-select">
@@ -266,7 +297,7 @@
             <div id="presetInfoBlock" class="preset-info-box hidden">
                 <img id="presetImg" class="preset-info-img" src="" alt="Zdjęcie wersji">
                 <div id="presetImgPlaceholder" class="preset-info-img" style="display:none;">[Brak zdjęcia]</div>
-                
+
                 <h3 id="presetTitle" class="preset-info-title">Tytuł</h3>
                 <p id="presetDesc" class="preset-info-desc">Opis...</p>
                 <strong>Główne cechy:</strong>
@@ -319,7 +350,7 @@
 
         <div class="card">
             <h2>Koszty budowy</h2>
-            
+
             <div class="summary-box">
                 <div class="summary-row">
                     <span>Koszty stałe: </span>
@@ -339,11 +370,6 @@
                 <p>Szacowany koszt</p>
                 <h3 id="displayTotalCostBig">0.00 zł</h3>
             </div>
-
-<!--            <div class="details-list">-->
-<!--                <strong>Szczegółowy wykaz z cennika:</strong>-->
-<!--                <table id="detailsTable"></table>-->
-<!--            </div>-->
         </div>
     </div>
 </section>
@@ -357,11 +383,11 @@
         </p>
 
         <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px;">
-            <a href="Instrukcja_uniwersalna.pdf" target="_blank" class="btn-main" style="font-size: 1.1rem; padding: 15px 30px; background-color: #28a745; border: none;">
+            <a href="Instrukcja_uniwersalna.pdf" target="_blank" class="btn-main" style="font-size: 1.1rem; padding: 15px 30px; background-color: #28a745; border: none; color: #fff;">
                 📄 Pełna Instrukcja (PDF)
             </a>
 
-            <a href="Ekran-i-klawiatura.pdf" target="_blank" class="btn-main" style="font-size: 1.1rem; padding: 15px 30px;">
+            <a href="Ekran-i-klawiatura.pdf" target="_blank" class="btn-main" style="font-size: 1.1rem; padding: 15px 30px; color: #fff;">
                 📑 Ściąga: Ekran i Klawiatura (PDF)
             </a>
         </div>
@@ -399,17 +425,50 @@
 <footer>
     &copy; 2026 Nastawnik DCC
 </footer>
+
 <script>
+    // Skrypt omijający cache
     document.write('<script src="ceny.js?v=' + Date.now() + '"><\/script>');
 </script>
+
 <script>
+    // ==========================================
+    // OBSŁUGA MOTYWU CIEMNEGO / JASNEGO
+    // ==========================================
+    const toggleBtn = document.getElementById('theme-toggle');
+    const htmlElement = document.documentElement;
+
+    // Sprawdzenie zapisanego wyboru lub ustawień systemu
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+        htmlElement.setAttribute('data-theme', savedTheme);
+        updateToggleIcon(savedTheme);
+    } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        htmlElement.setAttribute('data-theme', 'dark');
+        updateToggleIcon('dark');
+    }
+
+    // Przełączanie po kliknięciu
+    toggleBtn.addEventListener('click', () => {
+        const currentTheme = htmlElement.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+        htmlElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        updateToggleIcon(newTheme);
+    });
+
+    function updateToggleIcon(theme) {
+        toggleBtn.innerText = theme === 'dark' ? '☀️' : '🌙';
+    }
+
     // ==========================================
     // DANE PRESETÓW (ZDJĘCIA z folderów img/... i OPISY)
     // ==========================================
     const PRESET_DETAILS = {
         'minimum': {
             title: 'Wersja Minimum',
-            image: 'img/minimum/foto1.jpg', 
+            image: 'img/minimum/foto1.jpg',
             desc: 'Najprostsza wersja, idealna dla osób mających pierwszy kontakt ze sterowaniem lokomotywą na makiecie. Doskonała jako bezpieczny manipulator dla dzieci bądź gości bez doświadczenia.',
             features: [
                 'Tylko kontrola prędkości (brak możliwości zmiany kierunku jazdy z poziomu nastawnika)',
@@ -431,7 +490,6 @@
             ],
             settings: { keyboard: 'small', screen: '1', power: '1', lanyard: 'none', cable: 'none' }
         },
-
         'premium': {
             title: 'Wersja Premium',
             image: 'img/premium/foto1.jpg',
@@ -452,7 +510,7 @@
     const presetEl = document.getElementById('preset');
     const customConfiguratorEl = document.getElementById('customConfigurator');
     const presetInfoBlock = document.getElementById('presetInfoBlock');
-    
+
     const presetTitleEl = document.getElementById('presetTitle');
     const presetDescEl = document.getElementById('presetDesc');
     const presetFeaturesEl = document.getElementById('presetFeatures');
@@ -471,12 +529,12 @@
         } else {
             customConfiguratorEl.classList.add('hidden');
             presetInfoBlock.classList.remove('hidden');
-            
+
             const data = PRESET_DETAILS[selectedKey];
-            
+
             presetTitleEl.innerText = data.title;
             presetDescEl.innerText = data.desc;
-            
+
             presetFeaturesEl.innerHTML = '';
             data.features.forEach(feat => {
                 const li = document.createElement('li');
@@ -500,7 +558,7 @@
             document.getElementById('lanyard').value = vals.lanyard;
             document.getElementById('cable').value = vals.cable;
         }
-        
+
         updatePricing();
     });
 
@@ -525,42 +583,33 @@
             return;
         }
 
-        // 1. Koszty stałe
         for (const [name, data] of Object.entries(PRICING.fixedItems)) {
             fixedCostTotal += addRow(name, data[0], data[1]);
         }
 
-        // Pobranie wartości z formularza
         const keyboardVal = document.getElementById('keyboard').value;
         const screenVal = document.getElementById('screen').value;
         const powerVal = document.getElementById('power').value;
         const lanyardVal = document.getElementById('lanyard').value;
         const cableVal = document.getElementById('cable').value;
 
-        // 2. Koszty dynamiczne: Obudowa (Filament), Sterownik oraz Robocizna
         if (keyboardVal === 'none' && screenVal === 'none') {
-            // WERSJE MINIMUM (Z baterią lub bez)
             dynamicCostTotal += addRow("Filament (Obudowa Wersja Minimum)", PRICING.options.filament_base, 1);
 
             if (powerVal === 'none') {
-                // Czyste Minimum (Bez baterii)
                 dynamicCostTotal += addRow("Sterownik ESP32 C3 Super Mini", PRICING.options.esp32_c3_super_mini, 1);
                 dynamicCostTotal += addRow("Robocizna (Montaż bazowy)", PRICING.options.labor_base, 1);
             } else {
-                // Minimum + Bateria
                 dynamicCostTotal += addRow("Sterownik ESP32 C3 Super Mini", PRICING.options.esp32_c3_super_mini, 1);
                 dynamicCostTotal += addRow("Robocizna (Montaż bazowy + bateria)", PRICING.options.labor_base_plus, 1);
             }
         } else {
-            // WERSJE ROZBUDOWANE (Standard i Premium - mają ekran lub klawiaturę)
             dynamicCostTotal += addRow("Filament (Obudowa Standard/Premium)", PRICING.options.filament_standard, 1);
             dynamicCostTotal += addRow("Robocizna (Montaż rozszerzony)", PRICING.options.labor_standard, 1);
 
             if (keyboardVal === 'none') {
-                // Mają ekran, ale bez klawiatury
                 dynamicCostTotal += addRow("Sterownik ESP32 C3 Super Mini", PRICING.options.esp32_c3_super_mini, 1);
             } else {
-                // Mają klawiaturę (najwięcej pinów)
                 dynamicCostTotal += addRow("Sterownik ESP32 S2 Mini (Wersja z klaw.)", PRICING.options.esp32_s2_mini_keyboard, 1);
 
                 if (keyboardVal === 'small') dynamicCostTotal += addRow("Klawiatura Mała 4x3", PRICING.options.keyboard_small, 1);
@@ -568,7 +617,6 @@
             }
         }
 
-        // 3. Reszta kosztów dynamicznych
         if (screenVal === '1') dynamicCostTotal += addRow("Wyświetlacz OLED 0.96 cala", PRICING.options.screen_oled, 1);
 
         if (powerVal === '1') {
@@ -584,14 +632,12 @@
         if (lanyardVal === '1') dynamicCostTotal += addRow("Smyczka", PRICING.options.lanyard, 1);
         if (cableVal === '1') dynamicCostTotal += addRow("Kabel do ładowania USB-C", PRICING.options.cable_usbc, 1);
 
-        // 4. Podsumowanie
         const grandTotal = fixedCostTotal + dynamicCostTotal;
 
         document.getElementById('displayFixedCost').innerText = fixedCostTotal.toFixed(2) + ' zł';
         document.getElementById('displayDynamicCost').innerText = dynamicCostTotal.toFixed(2) + ' zł';
         document.getElementById('displayTotalCostSmall').innerText = grandTotal.toFixed(0) + ' zł';
         document.getElementById('displayTotalCostBig').innerText = grandTotal.toFixed(0) + ' zł';
-        //tableEl.innerHTML = detailsHTML;
     }
 
     calcInputs.forEach(el => el.addEventListener('change', updatePricing));
